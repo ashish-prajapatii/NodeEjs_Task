@@ -1,0 +1,153 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog App - Articles</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/css/pikaday.min.css"
+      integrity="sha512-ew1w4nlBgGX9XW5BciDE7d87lI+IhVxYPa1gLWk0uXuNSGnhbDLp8vOdcHCiXNQjU+kZjpQYTKJS1IiJ4VAg7A=="
+      crossorigin="anonymous"
+    />
+    <style>
+      /* styles.css */
+
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      a {
+        text-decoration: none;
+        color: #333;
+        margin-right: 10px;
+      }
+
+      a:hover {
+        color: #4caf50;
+      }
+
+      .is-hidden {
+        display: none !important;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        width: 80%;
+        max-width: 600px;
+      }
+
+      label {
+        margin-top: 10px;
+        color: #333;
+      }
+
+      input[type="text"],
+      button {
+        margin-top: 5px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Articles</h1>
+    <ul>
+      <% articles.forEach(article => { %>
+      <li>
+        <h2><%= article.title %></h2>
+        <p><%= article.description %></p>
+        <p>Category: <%= article.category %></p>
+        <p>Created At: <%= article.createdAt %></p>
+        <a href="/views/edit/<%= article._id %>">Edit</a> |
+        <a href="/views/delete/<%= article._id %>">Delete</a>
+      </li>
+      <% }); %>
+    </ul>
+    <a href="/views/create">Create New Article</a>
+    <form action="/views/search" method="get">
+      <input type="text" name="keyword" placeholder="Search articles" />
+      <button type="submit">Search</button>
+    </form>
+    <form action="/views/searchD" method="get">
+      <label for="startDate">Start Date:</label>
+      <input
+        type="text"
+        id="startDate"
+        name="startDate"
+        placeholder="Select a start date"
+      />
+
+      <label for="endDate">End Date:</label>
+      <input
+        type="text"
+        id="endDate"
+        name="endDate"
+        placeholder="Select an end date"
+      />
+
+      <button type="submit">Search</button>
+    </form>
+
+    <script>
+      const startDatePicker = new Pikaday({
+        field: document.getElementById("startDate"),
+        format: "YYYY-MM-DD",
+        yearRange: [2000, moment().year()],
+        showYearDropdown: true,
+        position: "bottom left",
+      });
+
+      const endDatePicker = new Pikaday({
+        field: document.getElementById("endDate"),
+        format: "YYYY-MM-DD",
+        yearRange: [2000, moment().year()],
+        showYearDropdown: true,
+        position: "bottom left",
+      });
+    </script>
+  </body>
+</html>
